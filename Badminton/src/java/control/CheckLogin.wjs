@@ -1,0 +1,12 @@
+import control.DAO;
+import model.User;
+
+public class CheckLogin {
+    
+    private DAO dao;
+    
+    public User [] checkLogin(User user) {
+        dao = new DAO();
+        return dao.check(user);
+    }
+}
