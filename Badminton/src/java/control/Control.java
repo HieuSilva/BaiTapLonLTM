@@ -17,11 +17,13 @@ import org.apache.axis.client.Service;
 import org.apache.axis.client.Call;
 import org.apache.axis.encoding.XMLType;
 import javax.xml.rpc.ParameterMode;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author HIEU
  */
+@Controller
 public class Control {
     
     private ApplicationContext context = null;
@@ -38,10 +40,8 @@ public class Control {
     }
 
     @RequestMapping(value = "/checkAdminLogin", method = RequestMethod.POST)
-    public String checkUser(@ModelAttribute("SpringWeb") User user, ModelMap model) {
+    public String checkAdminLogin(@ModelAttribute("SpringWeb") User user, ModelMap model) {
         
-        User [] userList = checkLogin(user);
-        System.out.println(userList);
         return "login_success";
     }
     
@@ -55,7 +55,7 @@ public class Control {
             call.setOperationName("checkLogin");
             call.addParameter("user", XMLType.XSD_ANYTYPE, ParameterMode.PARAM_MODE_IN);
             call.setReturnType(XMLType.XSD_ANYTYPE);
-            userList = (User[]) call.invoke(new Object[]{user.getUsername(), user.getPassword()});
+            userList = (User[]) call.invoke(new Object[]{user});
         } catch (Exception ex) {
             ex.printStackTrace();
         }

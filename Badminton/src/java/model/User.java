@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HIEU
  */
-public class User {
+public class User implements Serializable{
     
     private int id;
     private String username;
@@ -18,8 +20,6 @@ public class User {
     public User() {
     }
 
-    
-    
     public User(int id, String username, String password) {
         this.id = id;
         this.username = username;
