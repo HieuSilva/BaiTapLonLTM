@@ -5,17 +5,17 @@
  */
 package control;
 
-import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 import model.User;
+import model.VanDongVien;
 
 /**
  *
  * @author HIEU
  */
-public class UserJDBCTemplate {
+public class JDBCTemplate {
 
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplateObject;
@@ -32,6 +32,12 @@ public class UserJDBCTemplate {
             return true;
         }
         return false;
+    }
+    
+    public List<VanDongVien> getListVanDongVien() {
+        String SQL = "select * from tbl_van_dong_vien";
+        List<VanDongVien> result = jdbcTemplateObject.query(SQL, new Object[]{}, new VDVMapper());
+        return result;
     }
 
 //    public boolean create(User user) {

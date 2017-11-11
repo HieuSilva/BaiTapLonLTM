@@ -5,12 +5,12 @@
     <!-- Initialization for data source -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-        <property name="url" value="jdbc:sqlserver://localhost\\EVALUATION:1433; databasename=badminton"/>
+        <property name="url" value="jdbc:sqlserver://localhost\\EVALUATION:1433; databasename=BTL"/>
         <property name="username" value="sa"/>
         <property name="password" value="12345678"/>
     </bean>
-    <!-- Definition for userJDBCTemplate bean -->
-    <bean id="userJDBCTemplate" class="control.UserJDBCTemplate">
+    <!-- Definition for jdbcTemplate bean -->
+    <bean id="jdbcTemplate" class="control.JDBCTemplate">
         <property name="dataSource" ref="dataSource" />
     </bean>
     

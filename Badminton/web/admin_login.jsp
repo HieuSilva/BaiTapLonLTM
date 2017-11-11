@@ -12,12 +12,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin Login</title>
     </head>
-    <body>
+    <body style="text-align: center">
         <form:form action="/Badminton/checkAdminLogin" method="POST">
-            Username: <form:input type="text" path="username"/>
-            Password: <form:input type="text" path="password"/>
+            Username: <form:input type="text" path="username"/> </br> </br>
+            Password: <form:input type="password" path="password"/> </br>
             <input type="submit" value="Login"/>
-            <inpyt type="reset" value="Reset" />
         </form:form>
     </body>
 </html>

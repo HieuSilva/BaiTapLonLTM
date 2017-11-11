@@ -16,4 +16,5 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
         <property name="suffix" value=".jsp" />
     </bean>
     <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
 </beans>

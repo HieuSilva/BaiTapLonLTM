@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package control;
+import java.util.List;
 import model.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,6 +18,7 @@ import org.apache.axis.client.Service;
 import org.apache.axis.client.Call;
 import org.apache.axis.encoding.XMLType;
 import javax.xml.rpc.ParameterMode;
+import model.VanDongVien;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -27,11 +29,11 @@ import org.springframework.stereotype.Controller;
 public class Control {
     
     private ApplicationContext context = null;
-    private UserJDBCTemplate userJDBCTemplate = null;
+    private JDBCTemplate jdbcTemplate = null;
     
     public Control() {
         context = new ClassPathXmlApplicationContext("Beans.xml");
-        userJDBCTemplate = (UserJDBCTemplate) context.getBean("userJDBCTemplate");
+        jdbcTemplate = (JDBCTemplate) context.getBean("jdbcTemplate");
     }
 
     @RequestMapping(value = "/admin_login", method = RequestMethod.GET)
@@ -41,24 +43,47 @@ public class Control {
 
     @RequestMapping(value = "/checkAdminLogin", method = RequestMethod.POST)
     public String checkAdminLogin(@ModelAttribute("SpringWeb") User user, ModelMap model) {
-        
-        return "login_success";
+        String username = user.getUsername();
+        String password = user.getPassword();
+        if(checkLogin(username, password)) {
+            return "admin_home";
+        }
+        return "login_error";
     }
     
-    private User[] checkLogin(User user) {
-        User [] userList = null;
-        String endpointURL = "http://localhost:8080/axis/CheckLogin.jws";
+    @RequestMapping(value = "/list_van_dong_vien", method = RequestMethod.GET)
+    public ModelAndView list() {
+        return new ModelAndView("list_van_dong_vien", "command", new VanDongVien());
+    }
+
+    @RequestMapping(value = "/listVanDongVien", method = RequestMethod.POST)
+    public String listVanDongVien(@ModelAttribute("SpringWeb") VanDongVien vdv, ModelMap model) {
+        List<VanDongVien> listVDV = jdbcTemplate.getListVanDongVien();
+        model.addAttribute("listVDV", listVDV);
+        System.out.println(listVDV);
+        return "list_van_dong_vien";
+    }
+    
+    
+    
+    
+    
+    
+    private boolean checkLogin(String username, String password) {
+        boolean result = false;
+        String endpointURL = "http://localhost:8080/axis/AppWebService.jws";
         Service service = new Service();
         try {
             Call call = (Call) service.createCall();
             call.setTargetEndpointAddress(new java.net.URL(endpointURL));
             call.setOperationName("checkLogin");
-            call.addParameter("user", XMLType.XSD_ANYTYPE, ParameterMode.PARAM_MODE_IN);
-            call.setReturnType(XMLType.XSD_ANYTYPE);
-            userList = (User[]) call.invoke(new Object[]{user});
+            call.addParameter("username", XMLType.XSD_STRING,ParameterMode.PARAM_MODE_IN);
+            call.addParameter("password", XMLType.XSD_STRING,ParameterMode.PARAM_MODE_IN);
+            call.setReturnType(XMLType.XSD_BOOLEAN);
+            result = (Boolean) call.invoke(new Object[]{username, password});
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return userList;
+        return result;
     }
 }

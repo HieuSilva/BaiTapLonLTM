@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import model.QuocGia;
 import model.User;
 
 /**
@@ -28,6 +29,25 @@ public class DAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public QuocGia getQuocGia(int id) {
+        String sql = "SELECT * FROM tbl_quoc_gia WHERE id = ? ";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.last()) {
+                rs.beforeFirst();
+                while(rs.next()) {
+                    QuocGia q = new QuocGia(rs.getInt("id"), rs.getString("ten"), rs.getString("anh"));
+                    return q;
+                }
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
     public User [] check(User user) {
