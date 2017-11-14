@@ -1,0 +1,37 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 14, 2017, 11:02:30 PM
+    Author     : HIEU
+*/
+
+table {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin: auto;
+}
+
+table th, td {
+    border: 1px solid black;
+}
+
+h1 {
+    text-align: center;
+    color: red;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+input {
+    text-align: center;
+}
+
+div {
+    text-align: center;
+    padding: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

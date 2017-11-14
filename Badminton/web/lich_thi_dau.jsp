@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/lich_thi_dau.css"/>"/>
+        <link rel="stylesheet" type="text/css" href=<c:url value="/css/lich_thi_dau.css"/>/>
     </head>
     <body>
         <h1>Lịch thi đấu</h1>
@@ -41,7 +41,8 @@
                 <td><%= td.getDiemThuong() %></td>
                 <td><% if(td.getListDangKyCN() != null || td.getListDangKyDoi() != null) {%>
                     <a href="cap_nhat_ket_qua?idTranDau=<%= td.getId() %>">Cập nhật kết quả</a>
-                    <% }else {} %>
+                    <% }else {%>
+                    Chưa đăng ký vận động viên<%} %>
                 </td>
             </tr>
             <% } %>

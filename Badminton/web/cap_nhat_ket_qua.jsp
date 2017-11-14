@@ -15,6 +15,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href=<c:url value="/css/cap_nhat_ket_qua.css"/>/>
     </head>
     <body>
         <% 
@@ -24,7 +25,7 @@
         %>
         <h1>Trận đấu <%= td.getNoiDung().getTen() %></h1>
         <form:form action="/Badminton/updateKetQuaTranDau" method="POST">
-        ID trận đấu: <form:input  path="id" readonly="true" value="<%= td.getId()%>"/>
+            <div>ID trận đấu: <form:input  path="id" readonly="true" value="<%= td.getId()%>"/></div>
         <table>
         <%
             if(td.getListDangKyCN() != null) {
@@ -83,8 +84,10 @@
         <%}%>
            
         </table>
+        <div>
         <input type="submit" value="Cập nhật" />
         <input type="reset" value="Reset"/>
+        </div>
         </form:form>
     </body>
 </html>
