@@ -15,40 +15,17 @@
     <body style="text-align: center">
 
         <h1>WELCOME MANAGER!</h1>
-        <div>
-            <a href="add_van_dong_vien.jsp">
-                <input type="button" value="Thêm vận động viên"/>
-            </a>
-        </div>
 
-        <div>
+<!--        <div>
             <form action="/Badminton/listVanDongVien" method="POST">
                 <input type="submit" value="Xem danh sách vận động viên"/>
             <form>
-        </div>
-
+        </div>-->
+      
         <div>
-            <a href="dang_ky_thi_dau_ca_nhan.jsp">
-                <input type="button" value="Đăng ký thi đấu cá nhân"/>
-            </a>
-        </div>
-
-        <div>
-            <a href="dang_ky_thi_dau_doi.jsp">
-                <input type="button" value="Đăng ký thi đấu đôi"/>
-            </a>
-        </div>
-
-        <div>
-            <a href="them_tran_dau.jsp">
-                <input type="button" value="Thêm trận đấu"/>
-            </a>
-        </div>
-
-        <div>
-            <a href="cap_nhat_ket_qua.jsp">
-                <input type="button" value="Cập nhật kết quả trận đấu"/>
-            </a>
+            <form action="/Badminton/lichThiDau" method="POST">
+                <input type="submit" value="Cập nhật kết quả trận đấu"/>
+            </form>
         </div>
     </body>
 </html>

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package control;
-import java.util.List;
+import javax.servlet.http.HttpSession;
 import model.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,8 +18,10 @@ import org.apache.axis.client.Service;
 import org.apache.axis.client.Call;
 import org.apache.axis.encoding.XMLType;
 import javax.xml.rpc.ParameterMode;
-import model.VanDongVien;
+import model.TranDau;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
@@ -30,10 +32,12 @@ public class Control {
     
     private ApplicationContext context = null;
     private JDBCTemplate jdbcTemplate = null;
+    private DAO dao = null;
     
     public Control() {
         context = new ClassPathXmlApplicationContext("Beans.xml");
         jdbcTemplate = (JDBCTemplate) context.getBean("jdbcTemplate");
+        dao = new DAO();
     }
 
     @RequestMapping(value = "/admin_login", method = RequestMethod.GET)
@@ -51,18 +55,41 @@ public class Control {
         return "login_error";
     }
     
-    @RequestMapping(value = "/list_van_dong_vien", method = RequestMethod.GET)
-    public ModelAndView list() {
-        return new ModelAndView("list_van_dong_vien", "command", new VanDongVien());
+    @RequestMapping(value="/lichThiDau", method= RequestMethod.POST)
+    public String lichThiDau() {
+        TranDau [] listTD = dao.getTranDauList();
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession();
+        session.setAttribute("listTranDau", listTD);
+        
+        return "lich_thi_dau";
+    }
+    
+    @RequestMapping(value = "/cap_nhat_ket_qua", method = RequestMethod.GET)
+    public ModelAndView ketQua() {
+        return new ModelAndView("cap_nhat_ket_qua", "command", new TranDau());
     }
 
-    @RequestMapping(value = "/listVanDongVien", method = RequestMethod.POST)
-    public String listVanDongVien(@ModelAttribute("SpringWeb") VanDongVien vdv, ModelMap model) {
-        List<VanDongVien> listVDV = jdbcTemplate.getListVanDongVien();
-        model.addAttribute("listVDV", listVDV);
-        System.out.println(listVDV);
-        return "list_van_dong_vien";
+    @RequestMapping(value = "/updateKetQuaTranDau", method = RequestMethod.POST)
+    public String updateKetQuaTranDau(@ModelAttribute("SpringWeb") TranDau trandau, ModelMap model) {
+        if(dao.updateKetQuaTranDau(trandau)) {
+            return "update_success";
+        }
+        return "update_error";
     }
+    
+//    @RequestMapping(value = "/list_van_dong_vien", method = RequestMethod.GET)
+//    public ModelAndView list() {
+//        return new ModelAndView("list_van_dong_vien", "command", new VanDongVien());
+//    }
+//
+//    @RequestMapping(value = "/listVanDongVien", method = RequestMethod.POST)
+//    public String listVanDongVien(@ModelAttribute("SpringWeb") VanDongVien vdv, ModelMap model) {
+//        List<VanDongVien> listVDV = jdbcTemplate.getListVanDongVien();
+//        model.addAttribute("listVDV", listVDV);
+//        System.out.println(listVDV);
+//        return "list_van_dong_vien";
+//    }
     
     
     

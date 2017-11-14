@@ -5,13 +5,14 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  *
  * @author HIEU
  */
-public class VanDongVien {
+public class VanDongVien implements Serializable{
     
     private int id;
     private String hoten;
@@ -46,6 +47,9 @@ public class VanDongVien {
         this.diem = diem;
         this.quocGia = quocGia;
     }
+
+    
+    
 
     
     
@@ -112,7 +116,5 @@ public class VanDongVien {
     public void setQuocGia(QuocGia quocGia) {
         this.quocGia = quocGia;
     }
-    
-    
     
 }

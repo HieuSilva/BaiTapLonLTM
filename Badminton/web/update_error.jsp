@@ -1,6 +1,6 @@
 <%-- 
-    Document   : add_van_dong_vien
-    Created on : Nov 8, 2017, 9:35:38 PM
+    Document   : update_error
+    Created on : Nov 14, 2017, 4:41:12 PM
     Author     : HIEU
 --%>
 
@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Cập nhật kết quả không thành công</h1>
+        <a href="lich_thi_dau.jsp">Quay trở lại lịch thi đấu</a>
     </body>
 </html>

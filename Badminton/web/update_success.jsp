@@ -1,6 +1,6 @@
 <%-- 
-    Document   : them_tran_dau
-    Created on : Nov 8, 2017, 9:48:15 PM
+    Document   : update_success
+    Created on : Nov 14, 2017, 4:39:41 PM
     Author     : HIEU
 --%>
 
@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Cập nhật kết quả thành công</h1>
+        <a href="lich_thi_dau.jsp">Quay trở lại lịch thi đấu</a>
     </body>
 </html>

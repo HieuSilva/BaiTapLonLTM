@@ -11,13 +11,13 @@ import java.io.Serializable;
  *
  * @author HIEU
  */
-public class QuocGia implements Serializable{
+public class NoiDung implements Serializable{
     
     private int id;
     private String ten;
     private String mota;
 
-    public QuocGia(int id, String ten, String mota) {
+    public NoiDung(int id, String ten, String mota) {
         this.id = id;
         this.ten = ten;
         this.mota = mota;
@@ -46,4 +46,7 @@ public class QuocGia implements Serializable{
     public void setMota(String mota) {
         this.mota = mota;
     }
+    
+    
+    
 }

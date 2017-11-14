@@ -16,6 +16,7 @@
         <form:form action="/Badminton/checkAdminLogin" method="POST">
             Username: <form:input type="text" path="username"/> </br> </br>
             Password: <form:input type="password" path="password"/> </br>
+            
             <input type="submit" value="Login"/>
         </form:form>
     </body>
