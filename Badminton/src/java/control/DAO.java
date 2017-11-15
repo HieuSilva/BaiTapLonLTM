@@ -5,12 +5,16 @@
  */
 package control;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.DangKyThiDauCaNhan;
 import model.DangKyThiDauDoi;
 import model.Doi;
@@ -38,6 +42,28 @@ public class DAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public NoiDung[] getNoiDungList() {
+        NoiDung [] listND = null;
+        String sql = "SELECT * FROM tbl_noi_dung";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = ps.executeQuery();
+            if(rs.last()) {
+                listND = new NoiDung[rs.getRow()];
+                rs.beforeFirst();
+                
+                int i=0;
+                while(rs.next()) {
+                    listND[i++] = new NoiDung(rs.getInt("id"), rs.getString("ten"), rs.getString("mo_ta"));
+                }
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listND;
     }
     
     public QuocGia getQuocGia(int id) {
@@ -184,10 +210,11 @@ public class DAO {
      
      public ArrayList<DangKyThiDauCaNhan> getDangKyCaNhanByTranDau(int idTranDau) {
         ArrayList<DangKyThiDauCaNhan> list = null;
-        String sql = "SELECT DISTINCT id_van_dong_vien, id_tran_thi_dau, is_first, ghi_chu "
+        String sql = "SELECT DISTINCT id_van_dong_vien, id_tran_thi_dau, is_first, ghi_chu, dk.id "
                 + "FROM tbl_dang_ky_thi_dau_ca_nhan as dk, tbl_tran_dau as td "
                 + "WHERE td.id = ? "
-                + "AND td.id = dk.id_tran_thi_dau";
+                + "AND td.id = dk.id_tran_thi_dau "
+                + "ORDER BY dk.id ASC";
         try {
             PreparedStatement ps = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setInt(1, idTranDau);
@@ -262,10 +289,11 @@ public class DAO {
      public ArrayList<DangKyThiDauDoi> getDangKyDoiByTranDau(TranDau td) {
         Doi [] listDoi = getDoiByTranDau(td);
         ArrayList<DangKyThiDauDoi> list = null;
-        String sql = "SELECT DISTINCT id_doi, id_tran_thi_dau, is_first, ghi_chu "
+        String sql = "SELECT DISTINCT id_doi, id_tran_thi_dau, is_first, ghi_chu, dk.id "
                 + "FROM tbl_dang_ky_thi_dau_dong_doi as dk, tbl_tran_dau as td "
                 + "WHERE td.id = ? "
-                + "AND td.id = dk.id_tran_thi_dau";
+                + "AND td.id = dk.id_tran_thi_dau"
+                + "ORDER BY dk.id ASC";
         try {
             PreparedStatement ps = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setInt(1, td.getId());
@@ -376,6 +404,20 @@ public class DAO {
                 + "set3_1 = ?, "
                 + "set3_2 = ? "
                 + "WHERE id = ?";
+        //Không có tỉ số hòa trong 2 set đầu tiên
+        if(td.getSet11() == td.getSet12() || 
+                td.getSet21() == td.getSet22())
+            return false;
+        //Nếu thắng 2 set đầu thì không cập nhật kết quả set cuối
+        if((td.getSet11() > td.getSet12() && td.getSet21() > td.getSet22()) ||
+           (td.getSet11() < td.getSet12() && td.getSet21() < td.getSet22())) {
+            td.setSet31(0);
+            td.setSet32(0);
+        }
+        else if(td.getSet31() == td.getSet32()) {
+                return false;
+        }
+        
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, td.getSet11());
@@ -391,5 +433,43 @@ public class DAO {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public char [] getTiSo(TranDau td) {
+        char [] tiso = new char[2];
+        String call = "{call usp_getTiSo(?,?)}";
+        try {
+            CallableStatement cs = con.prepareCall(call);
+            cs.setInt(1, td.getId());
+            cs.registerOutParameter(2, java.sql.Types.CHAR);
+            cs.executeUpdate();
+            
+            String tisoString = cs.getString(2);
+            tiso[0] =  tisoString.charAt(0);
+            tiso[1] =  tisoString.charAt(1);
+            return tiso;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public TranDau getTranDauByNoiDungVongCap(NoiDung nd, int vong, int cap) {
+        TranDau [] listTD = getTranDauList();
+        for(TranDau td: listTD) {
+            if(td.getNoiDung().getId() == nd.getId() && td.getVong() == vong && td.getCap() == cap)
+                return td;
+        }
+        return null;
+    }
+    
+    public ArrayList<TranDau> getTranDauByIdNoiDung(int idNoiDung) {
+        ArrayList<TranDau> listTD = new ArrayList<TranDau>();
+        TranDau [] list = getTranDauList();
+        for(TranDau td: list) {
+            if(td.getNoiDung().getId() == idNoiDung)
+                listTD.add(td);
+        }
+        return listTD;
     }
 }

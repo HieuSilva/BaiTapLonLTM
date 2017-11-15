@@ -9,12 +9,21 @@ and open the template in the editor.
 */
 
 table {
-    border: 1px solid black;
+/*    border: 1px solid black;*/
     margin: auto;
 }
 
-table td {
+table td.tenvdv, td.tendoi {
     border: 1px solid black;
+    width: 120px;
+    height: 25px;
+}
+
+table td.tiso {
+    border: 1px dotted green;
+    width: 20px;
+    height: 25px;
+    text-align: center;
 }
 
 h1 {

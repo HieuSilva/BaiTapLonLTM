@@ -13,6 +13,7 @@
     </head>
     <body>
         <h1>Cập nhật kết quả không thành công</h1>
+        <h2>Lưu ý: Không có tỉ số hòa trong 1 set. Nếu có vận động viên thắng 2 set đầu thì không cập nhật tỉ số set 3</h2>
         <a href="lich_thi_dau.jsp">Quay trở lại lịch thi đấu</a>
     </body>
 </html>

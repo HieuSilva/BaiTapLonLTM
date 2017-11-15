@@ -27,5 +27,9 @@
                 <input type="submit" value="Cập nhật kết quả trận đấu"/>
             </form>
         </div>
+
+        <div>
+            <a href="chon_nhanh">Xem nhánh thi đấu</a>
+        </div>
     </body>
 </html>

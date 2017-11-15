@@ -18,6 +18,8 @@ import org.apache.axis.client.Service;
 import org.apache.axis.client.Call;
 import org.apache.axis.encoding.XMLType;
 import javax.xml.rpc.ParameterMode;
+import model.IDNoiDung;
+import model.NoiDung;
 import model.TranDau;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -76,6 +78,23 @@ public class Control {
             return "update_success";
         }
         return "update_error";
+    }
+    
+    @RequestMapping(value = "/chon_nhanh", method = RequestMethod.GET)
+    public ModelAndView nhanh() {
+        return new ModelAndView("chon_nhanh", "command", new IDNoiDung());
+    }
+    
+    @RequestMapping(value="/chonNhanhNoiDung", method=RequestMethod.POST)
+    public String nhanhThiDau(@ModelAttribute("SpringWeb") IDNoiDung idNoiDung) {
+        NoiDung nd = dao.getNoiDungById(idNoiDung.getIdNoiDung());
+        System.out.println(nd.getTen());
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession();
+        session.setAttribute("noiDung", nd);
+        if(nd.getId() < 3)
+            return "nhanh_thi_dau_don";
+        return "nhanh_thi_dau_doi";
     }
     
 //    @RequestMapping(value = "/list_van_dong_vien", method = RequestMethod.GET)
