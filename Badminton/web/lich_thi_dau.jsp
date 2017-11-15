@@ -47,5 +47,9 @@
             </tr>
             <% } %>
         </table>
+        
+        <div style="text-align: center; margin-top: 50px">
+            <a href="admin_home.jsp">Trở về trang chủ</a>
+        </div>
     </body>
 </html>

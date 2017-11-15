@@ -86,15 +86,15 @@ public class Control {
     }
     
     @RequestMapping(value="/chonNhanhNoiDung", method=RequestMethod.POST)
-    public String nhanhThiDau(@ModelAttribute("SpringWeb") IDNoiDung idNoiDung) {
+    public String nhanhThiDau(@ModelAttribute("command") IDNoiDung idNoiDung) {
         NoiDung nd = dao.getNoiDungById(idNoiDung.getIdNoiDung());
         System.out.println(nd.getTen());
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession();
         session.setAttribute("noiDung", nd);
-        if(nd.getId() < 3)
-            return "nhanh_thi_dau_don";
-        return "nhanh_thi_dau_doi";
+        //if(nd.getId() < 3)
+            return "chon_nhanh";
+        //return "nhanh_thi_dau_doi";
     }
     
 //    @RequestMapping(value = "/list_van_dong_vien", method = RequestMethod.GET)

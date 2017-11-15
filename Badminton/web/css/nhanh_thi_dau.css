@@ -11,6 +11,12 @@ and open the template in the editor.
 table {
 /*    border: 1px solid black;*/
     margin: auto;
+    margin-top: 50px;
+}
+
+table th {
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 table td.tenvdv, td.tendoi {

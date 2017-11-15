@@ -14,7 +14,7 @@
     </head>
     <body style="text-align: center">
 
-        <h1>WELCOME MANAGER!</h1>
+        <h1 style="margin-top: 100px">WELCOME MANAGER!</h1>
 
 <!--        <div>
             <form action="/Badminton/listVanDongVien" method="POST">
@@ -29,6 +29,7 @@
         </div>
 
         <div>
+            
             <a href="chon_nhanh">Xem nhánh thi đấu</a>
         </div>
     </body>

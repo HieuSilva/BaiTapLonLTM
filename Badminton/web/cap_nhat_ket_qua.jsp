@@ -16,6 +16,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link rel="stylesheet" type="text/css" href=<c:url value="/css/cap_nhat_ket_qua.css"/>/>
+        <style>
+            h2 {
+                text-align: center;
+            }
+        </style>
     </head>
     <body>
         <% 
@@ -23,7 +28,9 @@
             int idTranDau = Integer.parseInt(request.getParameter("idTranDau"));
             TranDau td = dao.getTranDauById(idTranDau);
         %>
-        <h1>Trận đấu <%= td.getNoiDung().getTen() %></h1>
+        <h1 style="margin: 20px 0px">Trận đấu <%= td.getNoiDung().getTen() %></h1>
+        <h2>Vòng <%= td.getVong() %></h2>
+        <h2>Cặp <%= td.getCap() %></h2>
         <form:form action="/Badminton/updateKetQuaTranDau" method="POST">
             <div>ID trận đấu: <form:input  path="id" readonly="true" value="<%= td.getId()%>"/></div>
         <table>
@@ -85,8 +92,12 @@
            
         </table>
         <div>
-        <input type="submit" value="Cập nhật" />
-        <input type="reset" value="Reset"/>
+            <input type="submit" value="Cập nhật" />
+            <input type="reset" value="Reset"/>
+        </div>
+        
+        <div>
+            <a href="lich_thi_dau.jsp">Xem lịch thi đấu</a>
         </div>
         </form:form>
     </body>
